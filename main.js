@@ -27,7 +27,7 @@ class Line {
 
 class Frame {
   constructor(id, circle) {
-    this.element = document.querySelector(id);
+    this.element = document.getElementById(id);
     this.frame = this.element.getBoundingClientRect();
     this.boundaries = {
       left: circle.radius,
@@ -35,6 +35,14 @@ class Frame {
       top: circle.radius,
       bottom: this.frame.bottom - circle.radius,
     };
+  }
+}
+
+class InfoText {
+  constructor(id) {
+    this.element = document.getElementById(id);
+    this.show = () => (this.element.style.opacity = 1);
+    this.hide = () => (this.element.style.opacity = 0);
   }
 }
 
@@ -69,52 +77,42 @@ const handleMouseMove = (e, frame, circle, hline, vline) => {
   else circle.move(vline.x, targetY);
 };
 
-const showText = (id) => {
-  document.getElementById(id).style.opacity = 1;
-};
-
-const hideText = (id) => {
-  document.getElementById(id).style.opacity = 0;
-};
-
-const init = (circle) => {
-  circle.move(verticalLine.x, horizontalLine.y);
-
-  showText("text1");
-
-  setTimeout(() => {
-    hideText("text1");
-    showText("text2");
-  }, 5000);
-
-  setTimeout(() => {
-    hideText("text2");
-    showText("text3");
-  }, 13000);
-
-  setTimeout(() => {
-    hideText("text3");
-    showText("text4");
-  }, 18000);
-
-  setTimeout(() => {
-    hideText("text4");
-  }, 22000);
-};
-
 const horizontalLine = new Line("h-line");
 const verticalLine = new Line("v-line");
 
 const circle = new Circle("circle");
+circle.move(verticalLine.x, horizontalLine.y);
 circle.element.addEventListener("mousedown", () => (circle.isDragging = true));
-
-let frame = new Frame("main", circle);
-window.addEventListener("resize", () => (frame = new Frame("main", circle)));
-
 document.addEventListener("mouseup", () => (circle.isDragging = false));
-
 document.addEventListener("mousemove", (e) =>
   handleMouseMove(e, frame, circle, horizontalLine, verticalLine)
 );
 
-init(circle);
+let frame = new Frame("frame", circle);
+window.addEventListener("resize", () => (frame = new Frame("frame", circle)));
+
+const infoText1 = new InfoText("text1");
+const infoText2 = new InfoText("text2");
+const infoText3 = new InfoText("text3");
+const infoText4 = new InfoText("text4");
+
+infoText1.show();
+
+setTimeout(() => {
+  infoText1.hide();
+  infoText2.show();
+}, 5000);
+
+setTimeout(() => {
+  infoText2.hide();
+  infoText3.show();
+}, 13000);
+
+setTimeout(() => {
+  infoText3.hide();
+  infoText4.show();
+}, 18000);
+
+setTimeout(() => {
+  infoText4.hide();
+}, 22000);
