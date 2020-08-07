@@ -41,8 +41,15 @@ class Frame {
 class InfoText {
   constructor(id) {
     this.element = document.getElementById(id);
-    this.show = () => (this.element.style.opacity = 1);
-    this.hide = () => (this.element.style.opacity = 0);
+    this.hidden = true;
+    this.show = () => {
+      this.element.style.opacity = 1;
+      this.hidden = false;
+    };
+    this.hide = () => {
+      this.element.style.opacity = 0;
+      this.hidden = true;
+    };
   }
 }
 
@@ -95,24 +102,42 @@ const infoText1 = new InfoText("text1");
 const infoText2 = new InfoText("text2");
 const infoText3 = new InfoText("text3");
 const infoText4 = new InfoText("text4");
+const infoText5 = new InfoText("text5");
+const toggleInfoTexts = (...infoTexts) => {
+  for (let infoText of infoTexts) {
+    if (infoText.hidden) infoText.show();
+    else infoText.hide();
+  }
+};
+
+const infoIcon = new InfoText("info");
+infoIcon.element.addEventListener("click", () => {
+  toggleInfoTexts(infoText1, infoText2, infoText3, infoText4, infoText5);
+});
 
 infoText1.show();
 
 setTimeout(() => {
   infoText1.hide();
   infoText2.show();
-}, 5000);
+}, 2500);
 
 setTimeout(() => {
   infoText2.hide();
   infoText3.show();
-}, 13000);
+}, 6000);
 
 setTimeout(() => {
   infoText3.hide();
   infoText4.show();
-}, 18000);
+}, 8500);
 
 setTimeout(() => {
   infoText4.hide();
-}, 22000);
+  infoText5.show();
+}, 10000);
+
+setTimeout(() => {
+  infoText5.hide();
+  infoIcon.show();
+}, 12000);
