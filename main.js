@@ -135,9 +135,9 @@ setTimeout(() => {
 setTimeout(() => {
   infoText4.hide();
   infoText5.show();
-}, 10000);
+}, 11000);
 
 setTimeout(() => {
   infoText5.hide();
   infoIcon.show();
-}, 12000);
+}, 13500);
